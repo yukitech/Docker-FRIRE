@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="static/css/create.css">
+{% endblock %}
+
+{% block body %}
+<h2 class="page-menu-title">食材登録</h2>
+<form class="m-5" action="/fridgeItem" method="POST">
+  <div class="mb-3 pd-3 form-itemName">
+    <label for="itemName" class="form-label">食材名</label>
+    <input type="text" class="form-control" name="itemName">
+  </div>
+  <div class="mb-3 pb-3">
+    <label for="itemNum" class="form-label">個数</label>
+    <input type="number" class="form-control" name="itemNum">
+  </div>
+  <div class="mb-3 pb-3">
+    <label for="itemCost" class="form-label">値段</label>
+    <input type="number" class="form-control" name="itemCost">
+  </div>
+  <div class="mb-3 pb-3">
+    <label for="due">賞味期限</label>
+    <input type="date" name="expiryDate" required>
+  </div>
+  <a class="btn btn-outline-primary" href="/" role="button">ホームに戻る</a>
+  <button type="submit" class="btn btn-primary" value="Create">作成</button>
+
+  <div class="loader">
+    <div class="loader__spinner">
+      <div class="loader__double-bounce1"></div>
+      <div class="loader__double-bounce2"></div>
+      <p>食材登録中</p>
+    </div>
+  </div><!-- /.loader -->
+</form>
+<script>
+  const myFunc = ()=>{  
+    const form = document.forms[0];
+    const button = form.querySelector('button');
+    const loader = form.querySelector('.loader');
+
+    button.addEventListener('click', (e)=>{
+      //ローダーを表示する
+      loader.style.display = 'block';
+    }, false);
+  };
+  myFunc();
+</script>
+{% endblock %}

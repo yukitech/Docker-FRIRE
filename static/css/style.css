@@ -1,0 +1,130 @@
+html {
+  font-size: 100%;
+}
+body {
+  color: black;
+  width: 520px;
+  margin: 0 auto;
+  font-family: "Hiragino Kaku Gothic ProN";
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  transition: 0.25s;
+  opacity: 50%;
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+.wrapper {
+  max-width: 450px;
+  padding: 0 16px;
+  margin: 0 auto;
+}
+header {
+  width: 100%;
+  height: 100px;
+}
+.header {
+  background-color: #adcdec;
+  width: 520px;
+  height: 80px;
+  position: fixed;
+  z-index: 100;
+}
+header .wrapper {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+header .nav-left {
+  display: flex;
+}
+header .nav-right p {
+  margin: 0;
+  text-align: center;
+}
+.page-title {
+  font-size: 18px;
+  color: black;
+  text-align: center;
+  padding: 16px 0;
+}
+.page-title span {
+  font-size: 40px;
+}
+.fa-circle-user {
+  font-size: 45px;
+  /* margin: 18px 40px 18px 0; */
+  margin: 10px 6px 0 0;
+}
+.fa-bars {
+  font-size: 45px;
+  margin: 18px 10px 18px 10px;
+}
+nav {
+  display: flex;
+}
+nav.wrapper {
+  margin-bottom: 10px;
+}
+.fa-circle-left{
+  font-size: 40px;
+  margin-left: 10px;
+}
+nav p {
+  font-size: 20px;
+  margin-left: 10px;
+  padding-top: 5px;
+}
+.page-menu-title {
+  position: relative;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.page-menu-title::before, .page-menu-title::after {
+  position: absolute;
+  content: "";
+  border-top: 3px solid rgb(179, 179, 179);
+  width: calc(100% * 0.2);
+}
+.page-menu-title::before {
+  top: 10px;
+  left: calc(100% * 0.14)
+}
+.page-menu-title::after {
+  top: 10px;
+  right: calc(100% * 0.14)
+}
+footer {
+  background-color: #adcdec;
+  width: 100%;
+  height: 100px;
+  /* position: fixed;
+  z-index: 100; */
+}
+footer .page-title {
+  font-size: 14px;
+  padding: 16px 0 0 0;
+}
+footer .page-title span {
+  font-size: 30px;
+}
+footer .copyright {
+  margin: 0;
+  text-align: center;
+}
+
+@media screen and (max-width:520px) {
+  body {
+    width: 420px;
+  }
+}
