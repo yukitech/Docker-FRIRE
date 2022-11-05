@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from googletrans import Translator
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"
 
 model,preprocess = clip.load("ViT-B/32", device = device)
 
