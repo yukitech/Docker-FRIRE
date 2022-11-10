@@ -2,7 +2,6 @@
 from flask import Flask, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required
-from flask_migrate import Migrate
 from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,13 +10,12 @@ from encoder import make_taste_list, insert
 import recipeSearch
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQL_DATABASE_URL') or 'postgresql://postgres:degawapostgres@localhost:5432/friredb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///frire.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -165,4 +163,4 @@ def recipe():
     return redirect('/recipe')
 
 if __name__ == '__main__':
-  app.run()
+  app.run(debug=True)

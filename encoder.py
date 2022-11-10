@@ -6,14 +6,15 @@ from PIL import Image
 from googletrans import Translator
 from utils import get_device, get_model_and_preprocess
 
-def encode(img=None, text=None):
+def encode(img, text):
     model,preprocess = get_model_and_preprocess()
+    device = get_device()
 
     if text != None:
-        input_text = clip.tokenize(text).to(get_device)
+        input_text = clip.tokenize(text).to(device)
     elif img != None:
         image = Image.open(img)
-        proceed_img = preprocess(image).unsqueeze(0).to(get_device)
+        proceed_img = preprocess(image).unsqueeze(0).to(device)
 
 
     with torch.no_grad():
@@ -32,7 +33,7 @@ def cos_sim(want, recipe_name):
 
 #encod cos_simを統合
 def encode_cos(want,recipe_name):
-    b = encode(text=recipe_name)
+    b = encode(None, recipe_name)
 
     return cos_sim(want,b[0])
     
@@ -66,7 +67,7 @@ def make_taste_list():
     taste_encoded = []
 
     for i in range(len(taste_list)):
-        temp = encode(taste_list[i])
+        temp = encode(None,taste_list[i])
         taste_encoded.append(temp[0])
 
     taste = {}
