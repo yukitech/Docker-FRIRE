@@ -3,3 +3,5 @@ __pycache__
 Dockerfile
 requirements_backup.txt
 instance
+memory_test_env
+env

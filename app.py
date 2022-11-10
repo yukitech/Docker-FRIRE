@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-from encoder import make_taste_list, insert
+import pickle
+from encoder import insert
 import recipeSearch
 
 app = Flask(__name__)
@@ -137,6 +138,7 @@ def recipe():
       onClick = 0
     else:
       posts = Recipes.query.filter_by(userid=userid).order_by(Recipes.expiryDate).all()
+    
     feellists = {'あっさり':'Plain meal','重め':'Heavy meal','軽め':'Light meal','さっぱり':'Healthy','しょっぱい':'Salty','甘い':'Sweet','辛め':'Spicy','酸っぱい':'Sour','脂っこい':'Greasy'}
 
     feelButtons = []
@@ -148,8 +150,9 @@ def recipe():
   else:
     onClick = 1
     value = request.values["action"]
-    taste = make_taste_list()
     recipe_items = Recipes.query.filter_by(userid=userid).all()
+    with open('taste_feats.pkl', 'rb') as fr:
+      taste = pickle.load(fr)
 
     results = []
     for recipe_item in recipe_items:
