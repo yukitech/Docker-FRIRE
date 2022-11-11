@@ -5,9 +5,9 @@ from flask_login import UserMixin, LoginManager, login_user, logout_user, login_
 from datetime import datetime, timedelta
 from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
+from decimal import Decimal, ROUND_HALF_UP
 import os
-import pickle
-from encoder import insert
+import json
 import recipeSearch
 
 app = Flask(__name__)
@@ -151,15 +151,21 @@ def recipe():
     onClick = 1
     value = request.values["action"]
     recipe_items = Recipes.query.filter_by(userid=userid).all()
-    with open('taste_feats.pkl', 'rb') as fr:
-      taste = pickle.load(fr)
+    
+    with open('frire_data/recipes_feat.json') as fr:
+      recipes_feat = json.load(fr)
 
     results = []
     for recipe_item in recipe_items:
-      results.append(insert(taste[value], recipe_item.recipeName,recipe_item.recipeImg, 'url'))
+      if recipes_feat.get(recipe_item.recipeName) == None:
+        feat = 0
+      else:
+        feat = recipes_feat.get(recipe_item.recipeName).get(value)
+        feat = Decimal(feat).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) 
+      results.append(feat)
 
     for result, recipe_item in zip(results,recipe_items):
-      recommendPoint = result[2].item()
+      recommendPoint = result
       recipe_item.recommendPoint = recommendPoint
     db.session.commit()
       

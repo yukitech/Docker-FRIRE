@@ -53,12 +53,13 @@ def trans(text):
     return result.text
 
 #配列作成
-def insert(want, recipe_name, img_url, site_url):
+def insert(value,want, recipe_name, img_url, site_url):
     recipe_name_en = trans(recipe_name)
     cos_sim = encode_cos(want, recipe_name_en)
     
     recommend = []
 
+    recommend.append(value)
     recommend.append(recipe_name)
     recommend.append(recipe_name_en)
     recommend.append(cos_sim)
