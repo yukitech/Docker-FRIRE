@@ -27,6 +27,12 @@
   </ul>
 </div>
 
+<div class="alert-area wrapper hidden">
+  <div class="alert alert-info" role="alert">
+    <p class="alert-txt">表示順を{{ youTaste }}に更新しました</p>
+  </div>
+</div><!-- /.alert-area wrapper -->
+
 <div class="cards">
   {% for recipe_item in recipe_items%}
   <div class="card" style="width: 20rem; height: 25rem;">
@@ -34,38 +40,30 @@
       {{ recipe_item.recipeImg }}
     {% endautoescape %}
     <div class="card-body">
-      <p class="card-text text-center" style="font-size: 20px;">{{ recipe_item.recipeName }}<br>時間：{{ recipe_item.cookTime }}<br>スコア：{{ recipe_item.recommendPoint }}<br>賞味期限：{{ recipe_item.expiryDate.date() }}</p>
+      <p class="card-text text-center" style="font-size: 16px; line-height: 30px;">{{ recipe_item.recipeName }}<br>時間：{{ recipe_item.cookTime }}<br>おすすめ度：{{ recipe_item.recommendPoint }}<br>賞味期限：{{ recipe_item.expiryDate.date() }}</p>
     </div>
   </div>
   {% endfor %}
 </div><!-- /.cards -->
 
-<div class="loader">
-  <div class="loader__spinner">
-    <div class="loader__double-bounce1"></div>
-    <div class="loader__double-bounce2"></div>
-    <p>レシピ更新中</p>
-  </div>
-</div><!-- /.loader -->
-
 <script>
-  const myFunc = ()=>{  
-    const form = document.forms[0];
-    const buttons = form.querySelectorAll('.feel_button');
-    const loader = document.querySelector('.loader');
-
-    buttons.forEach(button => {
-      button.addEventListener('click', (e)=>{
-        //ローダーを表示する
-        loader.style.display = 'block';
-      
-        //～
-        //非同期処理追加
-        //～
-      }, false);
-    });
+  const isclick = () => {
+    localStorage.setItem('isclick', true);
   };
-  myFunc();
+
+  const DisplayAlert = () => {
+    if(!localStorage.getItem('isclick')) {
+      ;
+    } else {
+      const alert = document.querySelector('.alert-area');
+      const yourfeel = document.querySelector('.yourfeel');
+
+      alert.classList.toggle('hidden');
+      yourfeel.style.marginBottom = '20px';
+    }
+    localStorage.clear();
+  };
+  DisplayAlert();
 </script>
 
 {% endblock %}

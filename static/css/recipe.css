@@ -1,3 +1,6 @@
+.hidden {
+  display: none;
+}
 .cards {
   display: flex;
   flex-flow: column;
@@ -99,6 +102,18 @@
 }
 body {
   position: relative;
+}
+
+.alert-area {
+  margin-bottom: 30px;
+}
+.alert {
+  width: 300px;
+  margin: 0 auto;
+}
+.alert p {
+  text-align: center;
+  margin: 0;
 }
 
 .loader {

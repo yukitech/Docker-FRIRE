@@ -45,6 +45,7 @@ class Recipes(db.Model):
   userid = db.Column(db.Integer, nullable=False)
 
 onClick = 0
+value = None
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -131,7 +132,10 @@ def create():
 @login_required
 def recipe():
   global onClick
+  global value
+
   userid = session["userid"]
+  
   if request.method == 'GET':
     if onClick == 1:
       posts = Recipes.query.filter_by(userid=userid).order_by(desc(Recipes.recommendPoint)).all()
@@ -143,10 +147,16 @@ def recipe():
 
     feelButtons = []
     for feel_key, feel_value in feellists.items():
-      feel = f'<button class="feel_button" type="submit" name="action" value="{feel_value}"> { feel_key } </button>' 
+      feel = f'<button class="feel_button" type="submit" name="action" value="{feel_value}" onclick="isclick()"> { feel_key } </button>' 
       feelButtons.append(feel)
     
-    return render_template('recipe.html', recipe_items = posts, feelButtons = feelButtons, username=session["username"])
+    feel_key = []
+    if value != None:
+      feel_key = [k for k, v in feellists.items() if v == value]
+    else:
+      feel_key.append("")
+    
+    return render_template('recipe.html', recipe_items = posts, feelButtons = feelButtons, youTaste = feel_key[0], username=session["username"])
   else:
     onClick = 1
     value = request.values["action"]
