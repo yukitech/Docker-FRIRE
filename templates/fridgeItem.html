@@ -6,14 +6,80 @@
 
 {% block body %}
 <h2 class="page-menu-title">食材一覧</h2>
-<div class="cards">
-  {% for post in posts %}
-  <div class="card" style="width: 7rem; height: 10rem;">
-    <img src="static/imgs/Noimg.png" class="card-img-top" alt="">
-    <div class="card-body">
-      <p class="card-text text-center" style="font-size: 12px;">{{ post.itemName }}<br>個数：{{ post.itemNum }}<br><span style="font-size: 5px;">{{ post.expiryDate.date() }}</span></p>
+
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">食材の編集</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="update-form" action="/updatefridgeItem" method="POST">
+          <div class="mb-3">
+            <label for="itemName" class="col-form-label">食材名:</label>
+            <input type="text" class="form-control" name="itemName" id="itemName" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="itemNum" class="col-form-label">個数:</label>
+            <input type="number" class="form-control" name="itemNum" id="itemNum">
+          </div>
+          <div class="mb-3">
+            <label for="itemCost" class="col-form-label">値段:</label>
+            <input type="number" class="form-control" name="itemCost" id="itemCost">
+          </div>
+          <div class="mb-3 pb-3">
+            <label for="due">賞味期限</label>
+            <input type="date" name="expiryDate" id="expiryDate" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        <button type="submitb" class="btn btn-primary" value="Update" form="update-form">更新</button>
+      </div>
     </div>
   </div>
+</div>
+
+<div class="cards">
+  {% for post in posts %}
+  <a class="card" data-bs-toggle="modal" href="#updateModal">
+    <div class="card-contents" style="width: 7rem; height: 10rem;">
+      <img src="static/imgs/Noimg.png" class="card-img-top" alt="">
+      <div class="card-body">
+        <p class="card-text text-center" style="font-size: 12px; line-height: 22px;">{{ post.itemName }}<br/>個数 : {{ post.itemNum }}<br/><span style="font-size: 5px;">{{ post.expiryDate.date() }}</span><br/><p class="hidden">{{ post.itemCost }}</p></p>
+      </div>
+    </div>
+  </a>
   {% endfor %}
 </div><!-- /.cards -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<script>
+  const splitText = (text) => {
+    let textArray = text.split('\n');
+    let itemNum = textArray[1].split(' ');
+    textArray[1] = itemNum[2];
+    return textArray;
+  };
+
+  const cards = document.querySelectorAll(".card");
+  const itemName = document.getElementById("itemName");
+  const itemNum = document.getElementById("itemNum");
+  const itemCost = document.getElementById("itemCost");
+  const expiryDate = document.getElementById("expiryDate");
+
+  cards.forEach(card =>
+    card.addEventListener('click', () => {
+      let text = card.innerText;
+      Array = splitText(text);
+      itemName.value = Array[0];
+      itemNum.value = Array[1];
+      expiryDate.value = Array[2];
+      itemCost.value = Array[5];
+    })
+  );
+</script>
 {% endblock %}

@@ -1,3 +1,6 @@
+.hidden {
+  opacity: 0;
+}
 .cards {
   display: flex;
   justify-content: flex-start;
@@ -7,7 +10,7 @@
   margin: 0 auto 50px auto;
 }
 .card {
-  margin-right: 6%;
+  margin-right: 5.4%;
   margin-bottom: 15px;
 }
 .card:nth-child(3n) {

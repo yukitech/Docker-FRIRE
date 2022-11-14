@@ -121,7 +121,27 @@ def fridgeItem():
     db.session.commit()
     recipeSearch.recipe_update(db, FridgeItem, Recipes, userid)
     return redirect('/fridgeItem')
-    
+
+@app.route('/updatefridgeItem', methods=['POST'])
+@login_required
+def updateFridgeItem():
+  userid = session["userid"]
+  itemName = request.form.get('itemName')
+  itemNum = request.form.get('itemNum')
+  itemCost = request.form.get('itemCost')
+  expiryDate = request.form.get('expiryDate')
+  expiryDate = datetime.strptime(expiryDate, '%Y-%m-%d')
+
+  fridgeItems = FridgeItem.query.filter_by(userid=userid, itemName=itemName).all()
+  
+  for fridgeItem in fridgeItems:
+    fridgeItem.itemName = itemName
+    fridgeItem.itemNum = itemNum
+    fridgeItem.itemCost = itemCost
+    fridgeItem.expiryDate = expiryDate
+
+  db.session.commit()
+  return redirect('/fridgeItem')
 
 @app.route('/create')
 @login_required
